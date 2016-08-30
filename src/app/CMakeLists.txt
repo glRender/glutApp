@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8.11)
 set (CMAKE_CXX_STANDARD 11)
 
 aux_source_directory(src SOURCES)
-add_executable (main src/main.cpp)
+add_executable (app src/main.cpp)
 
 find_package(OpenGL REQUIRED)
 
@@ -25,7 +25,7 @@ include_directories(
 )
 
 target_link_libraries(
-        main
+        app
         ${OPENGL_LIBRARIES}
         ${GLUT_LIBRARIES}
         ${GLEW_LIBRARIES}
