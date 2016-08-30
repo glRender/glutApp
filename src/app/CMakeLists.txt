@@ -5,13 +5,22 @@ set (CMAKE_CXX_STANDARD 11)
 aux_source_directory(src SOURCES)
 add_executable (main src/main.cpp)
 
-find_package(GLUT REQUIRED)
 find_package(OpenGL REQUIRED)
+
+if(WIN32)
+        set(GLUT_glut_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/freeglut/lib/libfreeglut.a )
+        set(GLUT_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/freeglut/include )
+
+        set(GLEW_LIBRARY ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/lib/glew32.dll )
+        set(GLEW_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/include )
+endif()
+
+find_package(GLUT REQUIRED)
 find_package(GLEW REQUIRED)
 
 include_directories(
-        ${GLUT_INCLUDE_DIR}
         ${OPENGL_INCLUDE_DIR}
+        ${GLUT_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
 )
 
@@ -19,7 +28,6 @@ target_link_libraries(
         main
         ${OPENGL_LIBRARIES}
         ${GLUT_LIBRARIES}
-        ${OPENGL_LIBRARIES}
         ${GLEW_LIBRARIES}
         glRender
 )
