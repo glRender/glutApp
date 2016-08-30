@@ -2,6 +2,10 @@ cmake_minimum_required (VERSION 2.8.11)
 
 set (CMAKE_CXX_STANDARD 11)
 
+if(WIN32)
+    set(CMAKE_SH "C:/MinGW/msys/1.0/bin/sh.exe")
+endif()
+
 aux_source_directory(src SOURCES)
 add_executable (app src/main.cpp)
 
