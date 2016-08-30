@@ -1,0 +1,3 @@
+[submodule "src/glRender"]
+	path = src/glRender
+	url = https://github.com/sogimu/glRenderCmake
