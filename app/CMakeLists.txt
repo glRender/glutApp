@@ -2,10 +2,6 @@ cmake_minimum_required (VERSION 2.8.11)
 
 set (CMAKE_CXX_STANDARD 11)
 
-if(WIN32)
-    set(CMAKE_SH "C:/MinGW/msys/1.0/bin/sh.exe")
-endif()
-
 aux_source_directory(src SOURCES)
 add_executable (app src/main.cpp)
 
@@ -23,6 +19,7 @@ find_package(GLUT REQUIRED)
 find_package(GLEW REQUIRED)
 
 include_directories(
+        ${PROJECT_BINARY_DIR}/libs/glRender/include
         ${OPENGL_INCLUDE_DIR}
         ${GLUT_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
@@ -33,7 +30,7 @@ target_link_libraries(
         ${OPENGL_LIBRARIES}
         ${GLUT_LIBRARIES}
         ${GLEW_LIBRARIES}
-        glRender
+        ${PROJECT_BINARY_DIR}/libs/glRender/libglRender.so
 )
 
 if(WIN32)
