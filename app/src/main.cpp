@@ -51,87 +51,87 @@ void idle()
      glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
  }
 
- // void key ( unsigned char key, int x, int y )
- // {
- // //     if ( key == 27 || key == 'q' || key == 'Q' )    //  quit requested
- // //         exit ( 0 );
+  void key ( unsigned char key, int x, int y )
+  {
+  //     if ( key == 27 || key == 'q' || key == 'Q' )    //  quit requested
+  //         exit ( 0 );
 
- //     float cameraSpeed = 0.1f;
+      float cameraSpeed = 0.1f;
 
- //     // w
- //     if(key == 'w')
- //     {
- //         camera->translate( cameraSpeed * -Vec3::AXE_Z() );
- //         std::cout << "w" << std::endl;
+      // w
+      if(key == 'w')
+      {
+          camera->translate( cameraSpeed * -Vec3::AXE_Z() );
+          std::cout << "w" << std::endl;
 
- //     }
+      }
 
- //     // s
- //     if(key == 's')
- //     {
- //         camera->translate( cameraSpeed * Vec3::AXE_Z() );
- //         std::cout << "s" << std::endl;
- //     }
+      // s
+      if(key == 's')
+      {
+          camera->translate( cameraSpeed * Vec3::AXE_Z() );
+          std::cout << "s" << std::endl;
+      }
 
- //     // a
- //     if(key == 'a')
- //     {
- //         camera->translate( cameraSpeed * -Vec3::AXE_X() );
- //         std::cout << "a" << std::endl;
- //     }
+      // a
+      if(key == 'a')
+      {
+          camera->translate( cameraSpeed * -Vec3::AXE_X() );
+          std::cout << "a" << std::endl;
+      }
 
- //     // d
- //     if(key == 'd')
- //     {
- //         camera->translate( cameraSpeed * Vec3::AXE_X() );
- //         std::cout << "d" << std::endl;
- //     }
+      // d
+      if(key == 'd')
+      {
+          camera->translate( cameraSpeed * Vec3::AXE_X() );
+          std::cout << "d" << std::endl;
+      }
 
- //     // q
- //     if(key == 'q')
- //     {
- //         camera->rotate( -45, Vec3::AXE_Y() );
+      // q
+      if(key == 'q')
+      {
+          camera->rotate( -45, Vec3::AXE_Y() );
 
- //         std::cout << 'q' << std::endl;
- //     }
+          std::cout << 'q' << std::endl;
+      }
 
- //     // e
- //     if(key == 'e')
- //     {
- //         camera->rotate( 45, Vec3::AXE_Y() );
- //         std::cout << "e" << std::endl;
- //     }
+      // e
+      if(key == 'e')
+      {
+          camera->rotate( 45, Vec3::AXE_Y() );
+          std::cout << "e" << std::endl;
+      }
 
- //     // r
- //     if(key == 'r')
- //     {
- //         camera->rotate( -45, Vec3::AXE_X() );
- //         std::cout << "r" << std::endl;
- //     }
+      // r
+      if(key == 'r')
+      {
+          camera->rotate( -45, Vec3::AXE_X() );
+          std::cout << "r" << std::endl;
+      }
 
- //     // f
- //     if(key == 'f')
- //     {
- //         camera->rotate( 45, Vec3::AXE_X() );
- //         std::cout << "f" << std::endl;
- //     }
+      // f
+      if(key == 'f')
+      {
+          camera->rotate( 45, Vec3::AXE_X() );
+          std::cout << "f" << std::endl;
+      }
 
 
- //     std::cout << "camera->position()" << camera->position() << std::endl;
+      std::cout << "camera->position()" << camera->position() << std::endl;
 
- //     std::cout << "camera->up       " << camera->up() << std::endl;
- //     std::cout << "camera->front    " << camera->front() << std::endl;
- //     std::cout << "camera->right    " << camera->right() << std::endl;
+      std::cout << "camera->up       " << camera->up() << std::endl;
+      std::cout << "camera->front    " << camera->front() << std::endl;
+      std::cout << "camera->right    " << camera->right() << std::endl;
 
- // //    std::cout << "camera->upOrig       " << camera->upOrig() << std::endl;
- // //    std::cout << "camera->frontOrig    " << camera->frontOrig() << std::endl;
- // //    std::cout << "camera->rightOrig    " << camera->rightOrig() << std::endl;
+  //    std::cout << "camera->upOrig       " << camera->upOrig() << std::endl;
+  //    std::cout << "camera->frontOrig    " << camera->frontOrig() << std::endl;
+  //    std::cout << "camera->rightOrig    " << camera->rightOrig() << std::endl;
 
- // //    std::cout << "camera->modelViewMatrix()  " << std::endl << camera->modelViewMatrix() << std::endl;
- // //    std::cout << "camera->projectionMatrix() " << std::endl << camera->projectionMatrix() << std::endl;
+  //    std::cout << "camera->modelViewMatrix()  " << std::endl << camera->modelViewMatrix() << std::endl;
+  //    std::cout << "camera->projectionMatrix() " << std::endl << camera->projectionMatrix() << std::endl;
 
- //     glutPostRedisplay();
- // }
+      glutPostRedisplay();
+  }
 
 // void mouse(int button, int state, int x, int y)
 // {
@@ -251,7 +251,7 @@ int main ( int argc, char * argv [] )
      // register handlers
      glutDisplayFunc    ( display );
      glutReshapeFunc    ( reshape );
-     // glutKeyboardFunc   ( key     );
+      glutKeyboardFunc   ( key     );
 //     glutMouseFunc      ( mouse   );
      glutIdleFunc       ( idle    );
 
