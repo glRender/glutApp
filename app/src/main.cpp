@@ -1,5 +1,7 @@
+#include <GL/glew.h>
+#include <GL/freeglut.h>
+
 #include "glRender.h"
-#include "GL/freeglut.h"
 
 static const int WINDOW_WIDTH = 1024;
 static const int WINDOW_HEIGHT = 800;
@@ -25,7 +27,7 @@ void init ()
 
 void idle()
 {
-    // scene->update();
+     scene->update();
 
     glutPostRedisplay();
 
@@ -38,7 +40,7 @@ void idle()
      glDepthFunc  ( GL_LEQUAL );
      glClear      ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-     // scene->draw();
+      scene->draw();
 
      glutSwapBuffers ();
 
@@ -259,50 +261,49 @@ int main ( int argc, char * argv [] )
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    std::cout << "dichotomia";
 
     Geometry * geometry0 = GeometryHelper::Cube(0.5);
 
-//    ShaderProgram * shaderProgram0 = new ShaderProgram("data/shader0.vertex", "data/shader0.frag");
- //     shaderProgram0->setAttribute( "vertex", AttributeType::XYZ);
- //     shaderProgram0->setAttribute( "uv", AttributeType::UV);
+    ShaderProgram * shaderProgram0 = new ShaderProgram("data/shader0.vertex", "data/shader0.frag");
+    shaderProgram0->setAttribute( "vertex", AttributeType::XYZ);
+    shaderProgram0->setAttribute( "uv", AttributeType::UV);
 
- //     Textures * textures0 = new Textures();
- //     textures0->setTexture( "texture0", new Texture("data/a.png") );
- //     textures0->setTexture( "texture1", new Texture("data/a.png") );
+      Textures * textures0 = new Textures();
+      textures0->setTexture( "texture0", new Texture("data/a.png") );
+      textures0->setTexture( "texture1", new Texture("data/a.png") );
 
- //     model0 = new Model(geometry0, textures0, shaderProgram0);
- //     model0->setWireframeMode(false);
- //     model0->setPosition(0.0, 0.0, 0.0);
- //     std::cout << "model0->position " << model0->position() << std::endl;
+      model0 = new Model(geometry0, textures0, shaderProgram0);
+      model0->setWireframeMode(false);
+      model0->setPosition(0.0, 0.0, 0.0);
+      std::cout << "model0->position " << model0->position() << std::endl;
 
  //     /////////////////////////////////////////////////////////////////////////////////////////////
 
- //     camera = new PerspectiveCamera( 90.0 / 180.0 * MATH_PI, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.01f, 200.0f );
- // //    camera->lookAt(Vec3(0,0,5), Vec3(0,0,0), Vec3(0,1,0));
- // //    cameraPos = Vec3(0,0,5);
+      camera = new PerspectiveCamera( 90.0 / 180.0 * MATH_PI, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.01f, 200.0f );
+  //    camera->lookAt(Vec3(0,0,5), Vec3(0,0,0), Vec3(0,1,0));
+  //    cameraPos = Vec3(0,0,5);
 
- //     scene = new Scene();
- //     scene->setActiveCamera(camera);
+      scene = new Scene();
+      scene->setActiveCamera(camera);
 
- //     MyCamera * nc = new MyCamera(camera);
- //     scene->addNode(nc);
+      MyCamera * nc = new MyCamera(camera);
+      scene->addNode(nc);
 
- //     MyModel * n0 = new MyModel(model0);
- //     scene->addNode(n0);
+      MyModel * n0 = new MyModel(model0);
+      scene->addNode(n0);
 
- //     srand( time(0) );
+      srand( time(0) );
 
- //     for (int i=0; i<5000; i++)
- //     {
- //         model1 = new Model(GeometryHelper::Cube( (rand() % 10) / 10.0), textures0, shaderProgram0);
- //         model1->setWireframeMode(true);
- //         model1->setPosition( (-5.0 + rand() % 50), (-5.0 + rand() % 50), (-5.0 + rand() % 50) );
+      for (int i=0; i<5000; i++)
+      {
+          model1 = new Model(GeometryHelper::Cube( (rand() % 10) / 10.0), textures0, shaderProgram0);
+          model1->setWireframeMode(true);
+          model1->setPosition( (-5.0 + rand() % 50), (-5.0 + rand() % 50), (-5.0 + rand() % 50) );
 
- //         MyModel * n = new MyModel(model1);
+          MyModel * n = new MyModel(model1);
 
- //         scene->addNode(n);
- //     }
+          scene->addNode(n);
+      }
 
      //////////////////////////////////////////////////////////////////////////////////////////////
 
