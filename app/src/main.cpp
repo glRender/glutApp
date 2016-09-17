@@ -227,7 +227,7 @@ int main ( int argc, char * argv [] )
      glutInitContextProfile ( GLUT_CORE_PROFILE );
 
      // create window
-     glutCreateWindow ( "GL 3.3 demo" );
+     glutCreateWindow ( "GLUT application, which use glRender" );
 
      glewExperimental = GL_TRUE;
 
