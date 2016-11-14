@@ -11,4 +11,5 @@ void main(void)
    keyring_position = vertex; 
    keyring_uv = uv; 
    gl_Position      = projection * view * model * vec4 ( vertex.x, vertex.y, vertex.z, 1.0 ); 
+   // gl_Position      = vec4 ( vertex, 1.0 ); 
 }

@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 2.8.11)
 
-set (CMAKE_CXX_STANDARD 11)
+add_compile_options(-std=c++11)
 
 aux_source_directory(src SOURCES)
 add_executable (app ${SOURCES})
@@ -19,7 +19,7 @@ find_package(GLUT REQUIRED)
 find_package(GLEW REQUIRED)
 
 include_directories(
-        ${PROJECT_BINARY_DIR}/libs/glRender/include
+        ${GLRENDER_INCLUDE_DIR}
         ${OPENGL_INCLUDE_DIR}
         ${GLUT_INCLUDE_DIR}
         ${GLEW_INCLUDE_DIRS}
@@ -29,7 +29,7 @@ target_link_libraries(app LINK_PUBLIC
         ${OPENGL_LIBRARIES}
         ${GLUT_LIBRARIES}
         ${GLEW_LIBRARIES}
-        ${PROJECT_BINARY_DIR}/libs/glRender/libglRender.so
+        ${GLRENDER_LIBRARIES}
 )
 
 if(WIN32)

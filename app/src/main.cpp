@@ -3,135 +3,187 @@
 
 #include "glRender.h"
 
+#include "Mark.hpp"
+#include "WoodenBox.hpp"
+#include "BrickBox.hpp"
+#include "QuadraticBezeirCurve.hpp"
+#include "Line.hpp"
+
 static const int WINDOW_WIDTH = 1024;
 static const int WINDOW_HEIGHT = 800;
 
 using namespace glRender;
 
-Model * model0;
-Model * model1;
-
 Camera * camera;
-Vec3 cameraPos;
+
+Mark * np;
+Mark * fp;
+Line * l;
 
 Scene * scene;
 
-float scale = 1.0;
+NodePicker * nodePicker;
 
 void init ()
 {
-    glClearColor ( 0.5, 0.5, 0.5, 1.0111 );
-    glEnable     ( GL_DEPTH_TEST );
-    glDepthFunc  ( GL_LEQUAL );
+    camera = new PerspectiveCamera( 90.0 / 180.0 * MATH_PI, 16.0f/9.0f, 1.0f, 200.0f );
+    camera->lookAt(Vec3(0,0,0), Vec3(0,0,-10), Vec3::AXE_Y());
+//    camera->lookAt(Vec3(-10,0,-10), Vec3(10,0,-10), Vec3::AXE_Y());
+
+    scene = new Scene();
+    scene->setActiveCamera(camera);
+
+    nodePicker = new NodePicker(camera, scene);
+
+    srand( time(0) );
+
+    for (int i=0; i<1000; i++)
+    {
+//        if ((int)(rand() % 5) == 0)
+//        {
+//                 WoodenBox *n = new WoodenBox();
+//                 n->model()->setOrigin( ((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25) );
+//                 n->model()->setWireframeMode(false);
+//                 scene->addNode(n);
+
+//        } else
+//        if ((int)(rand() % 3) == 1)
+//        {
+//            qDebug() << "1";
+//                 BrickBox *bb = new BrickBox();
+//                 bb->model()->setWireframeMode(false);
+//     //            bb->model()->setOrigin( ((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25) );
+//                 bb->model()->setOrigin(Vec3(1,0, -3));
+
+//                 scene->addNode(bb);
+
+//        } else
+//        if ((int)(rand() % 3) == 0)
+//        {
+//            qDebug() << "0";
+
+////                 Mark * m = new Mark(0,1,0,1);
+////                 m->model()->setWireframeMode(false);
+//////                 m->setOrigin(Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, 0));
+////                 m->setOrigin(Vec3(0,0, -3));
+
+//                 scene->addNode(m);
+
+//        }
+//        else
+//        if ((int)(rand() % 3) == 1)
+//        {
+//            Vec3 p0 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+//            Vec3 p1 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+
+//            float r = (rand() % 255) / 255.0;
+//            float g = (rand() % 255) / 255.0;
+//            float b = (rand() % 255) / 255.0;
+
+//            Line * l = new Line(p0, p1, 35000, r, g, b);
+////            l->setOrigin(Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25)));
+//            l->setOrigin(Vec3(0,0, -3));
+
+//            scene->addNode(l);
+
+//        }
+//              else
+//             if ((int)(rand() % 5) == 4)
+//             {
+            Vec3 p0 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+            Vec3 p1 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+            Vec3 p2 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+
+            float r = (rand() % 255) / 255.0;
+            float g = (rand() % 255) / 255.0;
+            float b = (rand() % 255) / 255.0;
+
+            QuadraticBezeirCurve * l = new QuadraticBezeirCurve(p0, p1, p2, 512, r, g, b);
+            scene->addNode(l);
+//             }
+    }
+
 }
 
 void idle()
 {
-     scene->update();
+    scene->update();
 
     glutPostRedisplay();
-
 }
 
- void display ()
- {
-     glClearColor ( 0.5, 0.5, 0.5, 1.0 );
-     glEnable     ( GL_DEPTH_TEST );
-     glDepthFunc  ( GL_LEQUAL );
-     glClear      ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+void display ()
+{
+    glClearColor ( 0.5, 0.5, 0.5, 1.0 );
+    glEnable     ( GL_DEPTH_TEST );
+    glEnable     ( GL_BLEND);
+    glDepthFunc  ( GL_LEQUAL );
+    glBlendFunc  ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glClear      ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-      scene->draw();
+    scene->draw();
 
-     glutSwapBuffers ();
+    glutSwapBuffers ();
+}
 
- }
+void reshape ( int w, int h )
+{
+    glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
+}
 
- void reshape ( int w, int h )
- {
-     glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
- }
+void key ( unsigned char key, int x, int y )
+{
+    if ( key == 27 )    //  quit requested
+        exit ( 0 );
 
-  void key ( unsigned char key, int x, int y )
-  {
-  //     if ( key == 27 || key == 'q' || key == 'Q' )    //  quit requested
-  //         exit ( 0 );
+    float cameraMoveSpeed = 0.3f;
+    float cameraRotationSpeed = 5.0f;
 
-      float cameraSpeed = 0.1f;
+    // w
+    if(key == 'w')
+    {
+        camera->setPosition( camera->position() + camera->front() * cameraMoveSpeed );
+        std::cout << "w" << std::endl;
 
-      // w
-      if(key == 'w')
-      {
-          camera->translate( cameraSpeed * -Vec3::AXE_Z() );
-          std::cout << "w" << std::endl;
+    }
 
-      }
+    // s
+    if(key == 's')
+    {
+        camera->setPosition( camera->position() - camera->front() * cameraMoveSpeed );
+        std::cout << "s" << std::endl;
+    }
 
-      // s
-      if(key == 's')
-      {
-          camera->translate( cameraSpeed * Vec3::AXE_Z() );
-          std::cout << "s" << std::endl;
-      }
+    // a
+    if(key == 'a')
+    {
+        camera->setPosition( camera->position() - camera->right() * cameraMoveSpeed );
+        std::cout << "a" << std::endl;
+    }
 
-      // a
-      if(key == 'a')
-      {
-          camera->translate( cameraSpeed * -Vec3::AXE_X() );
-          std::cout << "a" << std::endl;
-      }
+    // d
+    if(key == 'd')
+    {
+        camera->setPosition( camera->position() + camera->right() * cameraMoveSpeed );
+        std::cout << "d" << std::endl;
+    }
 
-      // d
-      if(key == 'd')
-      {
-          camera->translate( cameraSpeed * Vec3::AXE_X() );
-          std::cout << "d" << std::endl;
-      }
+    // q
+    if(key == 'q')
+    {
+        camera->setEulerAngles( camera->pitch(), camera->yaw() + cameraRotationSpeed, camera->roll() );
+        std::cout << 'q' << std::endl;
+    }
 
-      // q
-      if(key == 'q')
-      {
-          camera->rotate( -45, Vec3::AXE_Y() );
+    // e
+    if(key == 'e')
+    {
+        camera->setEulerAngles( camera->pitch(), camera->yaw() - cameraRotationSpeed, camera->roll() );
+        std::cout << "e" << std::endl;
+    }
 
-          std::cout << 'q' << std::endl;
-      }
-
-      // e
-      if(key == 'e')
-      {
-          camera->rotate( 45, Vec3::AXE_Y() );
-          std::cout << "e" << std::endl;
-      }
-
-      // r
-      if(key == 'r')
-      {
-          camera->rotate( -45, Vec3::AXE_X() );
-          std::cout << "r" << std::endl;
-      }
-
-      // f
-      if(key == 'f')
-      {
-          camera->rotate( 45, Vec3::AXE_X() );
-          std::cout << "f" << std::endl;
-      }
-
-
-      std::cout << "camera->position()" << camera->position() << std::endl;
-
-      std::cout << "camera->up       " << camera->up() << std::endl;
-      std::cout << "camera->front    " << camera->front() << std::endl;
-      std::cout << "camera->right    " << camera->right() << std::endl;
-
-  //    std::cout << "camera->upOrig       " << camera->upOrig() << std::endl;
-  //    std::cout << "camera->frontOrig    " << camera->frontOrig() << std::endl;
-  //    std::cout << "camera->rightOrig    " << camera->rightOrig() << std::endl;
-
-  //    std::cout << "camera->modelViewMatrix()  " << std::endl << camera->modelViewMatrix() << std::endl;
-  //    std::cout << "camera->projectionMatrix() " << std::endl << camera->projectionMatrix() << std::endl;
-
-      glutPostRedisplay();
-  }
+    glutPostRedisplay();
+}
 
 // void mouse(int button, int state, int x, int y)
 // {
@@ -167,52 +219,6 @@ void idle()
 //     glutPostRedisplay();
 
 // };
-
- class MyModel : public NodeModel
- {
- public:
-     MyModel(Model * model) :
-         NodeModel(model)
-     {
-
-     }
-
-     void update() override
-     {
-         // model()->translate(0.01, 0.0, 0.0);
-     }
-
- };
-
- class MyCamera : public NodeCamera
- {
- public:
-     MyCamera(Camera * camera) :
-         NodeCamera(camera)
-     {
-
-     }
-
-     void draw(Camera * camera) override
-     {
-
-     }
-
-     void update() override
-     {
-//         camera()->translate(0.0, 0.0, 0.5);
-
-//         Vec3 p = camera()->position();
-//
-//         camera()->translate(-p);
-//         camera()->rotate( -7, Vec3::AXE_Y() );
-//         camera()->rotate( -7, Vec3::AXE_Z() );
-//         camera()->translate(p);
-
-
-     }
-
- };
 
 int main ( int argc, char * argv [] )
 {
@@ -251,63 +257,23 @@ int main ( int argc, char * argv [] )
      // register handlers
      glutDisplayFunc    ( display );
      glutReshapeFunc    ( reshape );
-      glutKeyboardFunc   ( key     );
+     glutKeyboardFunc   ( key     );
 //     glutMouseFunc      ( mouse   );
      glutIdleFunc       ( idle    );
 
-     if ( !GL_ARB_vertex_array_object )
-         printf ( "No VAO support\n" );
-         exit;
+    if ( !GL_ARB_vertex_array_object )
+    {
+        printf ( "No VAO support\n" );
+        exit;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
+    init();
 
-    Geometry * geometry0 = GeometryHelper::Cube(0.5);
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
-    ShaderProgram * shaderProgram0 = new ShaderProgram("data/shader0.vertex", "data/shader0.frag");
-    shaderProgram0->setAttribute( "vertex", AttributeType::XYZ);
-    shaderProgram0->setAttribute( "uv", AttributeType::UV);
-
-      Textures * textures0 = new Textures();
-      textures0->setTexture( "texture0", new Texture("data/a.png") );
-      textures0->setTexture( "texture1", new Texture("data/a.png") );
-
-      model0 = new Model(geometry0, textures0, shaderProgram0);
-      model0->setWireframeMode(false);
-      model0->setPosition(0.0, 0.0, 0.0);
-      std::cout << "model0->position " << model0->position() << std::endl;
-
- //     /////////////////////////////////////////////////////////////////////////////////////////////
-
-      camera = new PerspectiveCamera( 90.0 / 180.0 * MATH_PI, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.01f, 200.0f );
-  //    camera->lookAt(Vec3(0,0,5), Vec3(0,0,0), Vec3(0,1,0));
-  //    cameraPos = Vec3(0,0,5);
-
-      scene = new Scene();
-      scene->setActiveCamera(camera);
-
-      MyCamera * nc = new MyCamera(camera);
-      scene->addNode(nc);
-
-      MyModel * n0 = new MyModel(model0);
-      scene->addNode(n0);
-
-      srand( time(0) );
-
-      for (int i=0; i<5000; i++)
-      {
-          model1 = new Model(GeometryHelper::Cube( (rand() % 10) / 10.0), textures0, shaderProgram0);
-          model1->setWireframeMode(true);
-          model1->setPosition( (-5.0 + rand() % 50), (-5.0 + rand() % 50), (-5.0 + rand() % 50) );
-
-          MyModel * n = new MyModel(model1);
-
-          scene->addNode(n);
-      }
-
-     //////////////////////////////////////////////////////////////////////////////////////////////
-
-     glutMainLoop ();
+    glutMainLoop ();
 
     return 0;
 }
