@@ -62,12 +62,12 @@ void init ()
 //        {
 //            qDebug() << "0";
 
-////                 Mark * m = new Mark(0,1,0,1);
-////                 m->model()->setWireframeMode(false);
-//////                 m->setOrigin(Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, 0));
-////                 m->setOrigin(Vec3(0,0, -3));
+                 Mark * m = new Mark(0,1,0,1);
+                 m->model()->setWireframeMode(false);
+                 m->setOrigin(Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, 0));
+//                 m->setOrigin(Vec3(0,0, -3));
 
-//                 scene->addNode(m);
+                 scene->addNode(m);
 
 //        }
 //        else
@@ -90,16 +90,16 @@ void init ()
 //              else
 //             if ((int)(rand() % 5) == 4)
 //             {
-            Vec3 p0 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
-            Vec3 p1 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
-            Vec3 p2 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
-
-            float r = (rand() % 255) / 255.0;
-            float g = (rand() % 255) / 255.0;
-            float b = (rand() % 255) / 255.0;
-
-            QuadraticBezeirCurve * l = new QuadraticBezeirCurve(p0, p1, p2, 512, r, g, b);
-            scene->addNode(l);
+//            Vec3 p0 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+//            Vec3 p1 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+//            Vec3 p2 = Vec3(((rand() % 50)) - 25, ((rand() % 50)) - 25, ((rand() % 50) - 25));
+//
+//            float r = (rand() % 255) / 255.0;
+//            float g = (rand() % 255) / 255.0;
+//            float b = (rand() % 255) / 255.0;
+//
+//            QuadraticBezeirCurve * l = new QuadraticBezeirCurve(p0, p1, p2, 512, r, g, b);
+//            scene->addNode(l);
 //             }
     }
 
@@ -107,9 +107,9 @@ void init ()
 
 void idle()
 {
-    scene->update();
+//    scene->update();
 
-    glutPostRedisplay();
+//    glutPostRedisplay();
 }
 
 void display ()
@@ -185,40 +185,25 @@ void key ( unsigned char key, int x, int y )
     glutPostRedisplay();
 }
 
-// void mouse(int button, int state, int x, int y)
-// {
-//     // Wheel reports as button 3(scroll up) and button 4(scroll down)
-//     if ((button == 3) || (button == 4)) // It's a wheel event
-//     {
-//         // Each wheel event reports like a button click, GLUT_DOWN then GLUT_UP
-//         if (state == GLUT_UP) return; // Disregard redundant GLUT_UP events
-// //        printf("Scroll %s At %d %d\n", (button == 3) ? "Up" : "Down", x, y);
-//         // std::cout << "mouseWheel" << std::endl;
-//         if ( button == 3 )
-//         {
-//             printf("Up!\n");
-//             scale += 0.05;
-//         }
-//         else
-//         {
-//             printf("Down!\n");
-//             scale -= 0.05;
-//         }
+void mouse(int button, int state, int x, int y)
+{
+    Vec2 normDeviceCoords(
+        2.0f * (float)x / WINDOW_WIDTH - 1.0f,
+        1.0f - 2.0f * (float)y / WINDOW_HEIGHT );
 
-//         model1->shaderProgram()->setUniform1f("angle", scale);
+    std::vector<Mark *> selectedMarks = nodePicker->find<Mark>(normDeviceCoords);
+    if (selectedMarks.size() > 0)
+    {
+        for (Mark * m : selectedMarks)
+        {
+            m->changeColor();
+        }
+        std::cout << "Has intersection!" << std::endl;
+    }
 
-//     }
-//     else
-//     {  // normal button event
-//         printf("Button %s At %d %d\n", (state == GLUT_DOWN) ? "Down" : "Up", x, y);
-//         if ( state == GLUT_DOWN )
-//         {
-//         }
-//     }
+    glutPostRedisplay();
 
-//     glutPostRedisplay();
-
-// };
+};
 
 int main ( int argc, char * argv [] )
 {
@@ -258,7 +243,7 @@ int main ( int argc, char * argv [] )
      glutDisplayFunc    ( display );
      glutReshapeFunc    ( reshape );
      glutKeyboardFunc   ( key     );
-//     glutMouseFunc      ( mouse   );
+     glutMouseFunc      ( mouse   );
      glutIdleFunc       ( idle    );
 
     if ( !GL_ARB_vertex_array_object )
