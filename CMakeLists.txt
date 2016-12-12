@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8.11)
 project (glRenderGlutApp)
 
-add_compile_options(-std=c++11)
+set(CMAKE_BUILD_TYPE Debug)
 
 add_subdirectory (libs/glRender)
 add_subdirectory (app)

@@ -44,8 +44,8 @@ Line::Line(Vec3 p0, Vec3 p1, uint segmentsNumber, float r, float g, float b)
     }
 
     Geometry* geometry = new Geometry();
-    geometry->set( "vertex", new AtributeBufferTemplate<Vec3>( vertices ) );
-    geometry->set( "index", new AtributeBufferTemplate<float>( indexes ) );
+    geometry->set( "vertex", new Buffer<Vec3>( vertices, 0x8892) );
+    geometry->set( "index", new Buffer<float>( indexes, 0x8892) );
 
     Textures * textures = new Textures();
 
@@ -86,8 +86,8 @@ void Line::update()
 //    Vec3 moveDir = dir.cross(m_p0);
 //    moveDir.normalize();
 
-//    AttributeBuffer * b = model()->geometry()->get("vertex");
-//    AttributeBufferTemplate<Vec3> * a = dynamic_cast<AttributeBufferTemplate<Vec3> *>(b);
+//    AbstractBuffer * b = model()->geometry()->get("vertex");
+//    Buffer<Vec3> * a = dynamic_cast<Buffer<Vec3> *>(b);
 
     offset += 0.05;
 
@@ -100,7 +100,7 @@ void Line::update()
 //        Vec3 p = m_p0 + pn * t + moveDir * sin(offset + 50 * t);
 //        v.push_back(p);
 //    }
-//   a->setRange(0, v.size(), v);
+//    a->setRange(0, v.size(), v);
 
 //    m_model->rotate(0.1, Vec3::AXE_Y());
 }
