@@ -44,8 +44,8 @@ Line::Line(Vec3 p0, Vec3 p1, uint segmentsNumber, float r, float g, float b)
     }
 
     Geometry* geometry = new Geometry();
-    geometry->set( "vertex", new Buffer<Vec3>( vertices, 0x8892) );
-    geometry->set( "index", new Buffer<float>( indexes, 0x8892) );
+    geometry->set( "vertex", new Buffer<Vec3>( vertices, BufferType::ArrayBuffer) );
+    geometry->set( "index", new Buffer<float>( indexes, BufferType::ArrayBuffer) );
 
     Textures * textures = new Textures();
 
