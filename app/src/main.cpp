@@ -1,4 +1,3 @@
-//#include <GL/glew.h>
 #include <GL/freeglut.h>
 
 #include "glRender.h"
@@ -13,8 +12,6 @@ static const int WINDOW_WIDTH = 1024;
 static const int WINDOW_HEIGHT = 800;
 
 using namespace glRender;
-
-Render * render;
 
 Camera * camera;
 
@@ -110,29 +107,18 @@ void init ()
 void idle()
 {
 //    scene->update();
-
 //    glutPostRedisplay();
 }
 
 void display ()
 {
-//    glClearColor ( 0.5, 0.5, 0.5, 1.0 );
-//    glEnable     ( GL_DEPTH_TEST );
-//    glEnable     ( GL_BLEND);
-//    glDepthFunc  ( GL_LEQUAL );
-//    glBlendFunc  ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glClear      ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-//    scene->draw();
-
-    render->draw(scene);
+    Render::draw(scene);
     glutSwapBuffers ();
 }
 
 void reshape ( int w, int h )
 {
-//    glViewport ( 0, 0, (GLsizei)w, (GLsizei)h );
-    render->setViewPortSize(w, h);
+    Render::setViewPortSize(w, h);
 }
 
 void key ( unsigned char key, int x, int y )
@@ -207,67 +193,38 @@ void mouse(int button, int state, int x, int y)
 
     glutPostRedisplay();
 
-};
+}
 
 int main ( int argc, char * argv [] )
 {
-     // initialize glut
-     glutInit            ( &argc, argv );
-     glutInitDisplayMode ( GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
-     glutInitWindowSize  ( WINDOW_WIDTH, WINDOW_HEIGHT );
+    // initialize glut
+    glutInit            ( &argc, argv );
+    glutInitDisplayMode ( GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
+    glutInitWindowSize  ( WINDOW_WIDTH, WINDOW_HEIGHT );
 
-     // prepare context for 3.3
-     glutInitContextVersion ( 3, 3 );
-     glutInitContextFlags   ( GLUT_FORWARD_COMPATIBLE | GLUT_DEBUG );
-     glutInitContextProfile ( GLUT_CORE_PROFILE );
+    // prepare context for 3.3
+    glutInitContextVersion ( 3, 3 );
+    glutInitContextFlags   ( GLUT_FORWARD_COMPATIBLE | GLUT_DEBUG );
+    glutInitContextProfile ( GLUT_CORE_PROFILE );
 
-     // create window
-     glutCreateWindow ( "GLUT application, which use glRender" );
+    // create window
+    glutCreateWindow ( "GLUT application, which use glRender" );
 
-//     glewExperimental = GL_TRUE;
+    if (!Render::glLoad())
+    {
+        exit(3);
+    }
 
-//     glewInit ();
+    printf("%s\n\n", Render::contextInformation());
 
-//     if ( !GLEW_VERSION_3_3 )
-//     {
-//         printf ( "OpenGL 3.3 not supported.\n" );
-
-//         return 1;
-//     }
-
-//     // print context information
-//     printf ("**************************\n");
-//     printf ("Vendor: %s\n", glGetString (GL_VENDOR));
-//     printf ("Renderer: %s\n", glGetString (GL_RENDERER));
-//     printf ("Version: %s\n", glGetString (GL_VERSION));
-//     printf ("GLSL: %s\n", glGetString (GL_SHADING_LANGUAGE_VERSION));
-//     printf ("**************************\n");
-
-     render = new Render();
-
-     if (!render->glLoad())
-     {
-         exit(3);
-     }
-
-     // register handlers
-     glutDisplayFunc    ( display );
-     glutReshapeFunc    ( reshape );
-     glutKeyboardFunc   ( key     );
-     glutMouseFunc      ( mouse   );
-     glutIdleFunc       ( idle    );
-
-//    if ( !GL_ARB_vertex_array_object )
-//    {
-//        printf ( "No VAO support\n" );
-//        exit;
-//    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////
+    // register handlers
+    glutDisplayFunc    ( display );
+    glutReshapeFunc    ( reshape );
+    glutKeyboardFunc   ( key     );
+    glutMouseFunc      ( mouse   );
+    glutIdleFunc       ( idle    );
 
     init();
-
-    //////////////////////////////////////////////////////////////////////////////////////////////
 
     glutMainLoop ();
 
