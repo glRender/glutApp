@@ -13,6 +13,8 @@ static const int WINDOW_HEIGHT = 800;
 
 using namespace glRender;
 
+Render * render;
+
 Camera * camera;
 
 Mark * np;
@@ -112,13 +114,13 @@ void idle()
 
 void display ()
 {
-    Render::draw(scene);
+    render->draw(scene);
     glutSwapBuffers ();
 }
 
 void reshape ( int w, int h )
 {
-    Render::setViewPortSize(w, h);
+    render->setViewportSize(w, h);
 }
 
 void key ( unsigned char key, int x, int y )
@@ -210,12 +212,13 @@ int main ( int argc, char * argv [] )
     // create window
     glutCreateWindow ( "GLUT application, which use glRender" );
 
-    if (!Render::glLoad())
+    render = Render::instance();
+    if (render == nullptr)
     {
         exit(3);
     }
 
-    printf("%s\n\n", Render::contextInformation());
+    printf("%s\n\n", render->contextInformation());
 
     // register handlers
     glutDisplayFunc    ( display );
