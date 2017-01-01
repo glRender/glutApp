@@ -36,7 +36,7 @@ Mark::~Mark()
 
 void Mark::update()
 {
-    m_model->rotate(0.1, Vec3::AXE_Y());
+//    m_model->rotate(0.1, Vec3::AXE_Y());
 }
 
 void Mark::draw(Camera *camera)

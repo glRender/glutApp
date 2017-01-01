@@ -4,11 +4,11 @@
 
 namespace glRender {
 
-class Line : public Node
+class SinusLine : public Node
 {
 public:
-  Line(Vec3 p0, Vec3 p1, uint segmentsNumber, float r, float g, float b);
-  ~Line();
+  SinusLine(Vec3 p0, Vec3 p1, uint segmentsNumber, float r, float g, float b);
+  ~SinusLine();
 
   void update() override;
   void draw(Camera * camera) override;
@@ -28,6 +28,9 @@ private:
   float m_r;
   float m_g;
   float m_b;
+
+  float offset = 0.0;
+
 };
 
 }
