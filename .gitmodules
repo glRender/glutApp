@@ -1,4 +1,0 @@
-[submodule "libs/glRender"]
-	path = libs/glRender
-	url = https://github.com/glRender/glRender
-	branch = master

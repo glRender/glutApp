@@ -3,5 +3,5 @@ project (glRenderGlutApp)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-add_subdirectory (libs/glRender)
+#add_subdirectory (libs/glRender)
 add_subdirectory (app)

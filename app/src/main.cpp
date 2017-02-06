@@ -120,7 +120,7 @@ void idle()
     glutPostRedisplay();
 }
 
-void display ()
+void display()
 {
     render->draw(scene);
     glutSwapBuffers ();
@@ -182,6 +182,8 @@ void key ( unsigned char key, int x, int y )
         std::cout << "e" << std::endl;
     }
 
+    std::cout << "camera: " << camera->position().x << camera->position().y << camera->position().z << std::endl;
+
     glutPostRedisplay();
 }
 
@@ -209,15 +211,15 @@ void mouse(int button, int state, int x, int y)
         {
             if (node->bb()->intersects(ray))
             {
-                Mark * c = dynamic_cast<Mark *>(node);
-                if (c != nullptr)
+                Mark * mark = dynamic_cast<Mark *>(node);
+                if (mark != nullptr)
                 {
-                    c->changeColor();
+                    mark->changeColor();
                 }
 
                 Vec3 n = camera->front();
                 Vec3 M1 = camera->position();
-                Vec3 M2 = c->model()->origin();
+                Vec3 M2 = mark->model()->origin();
 
                 float D1 = -(n.x*M1.x + n.y*M1.y + n.z*M1.z);
                 float D2 = -(n.x*M2.x + n.y*M2.y + n.z*M2.z);
@@ -253,6 +255,9 @@ void mouseMotion(int x, int y)
 
         Vec3 newPos = nodePicker->coordOnDistance(normDeviceCoords, distance);
         pressedNode->setOrigin(newPos);
+
+        printf("New position: %f, %f, %f\n", newPos.x, newPos.y, newPos.z);
+        std::cout << "" << std::endl;
     }
 
     glutPostRedisplay();
